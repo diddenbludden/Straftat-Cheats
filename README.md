@@ -26,8 +26,8 @@ Choose the DLL (straftat.dll) to inject
 Click Inject to perform the injection
 
 Visual Reference
-![Screen]([https://github.com/diddenbludden/Straftat-Cheats/blob/main/Images/tung.png?raw=true)
-![Screen]([https://github.com/diddenbludden/Straftat-Cheats/blob/main/Images/sahur.png?raw=true)
+![Screen](https://github.com/diddenbludden/Straftat-Cheats/blob/main/Images/tung.png?raw=true)
+![Screen](https://github.com/diddenbludden/Straftat-Cheats/blob/main/Images/sahur.png?raw=true)
 
 
 This fork includes fixes and updates for better stability and usability
