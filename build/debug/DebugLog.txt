@@ -1,0 +1,5 @@
+AntiVirus Installed: True
+Installed AntiVirus':
+   windowsdefender: %ProgramFiles%\Windows Defender\MsMpeng.exe
+
+AntiVirus Running: windowsdefender: %programfiles%\windows defender\msmpeng.exe

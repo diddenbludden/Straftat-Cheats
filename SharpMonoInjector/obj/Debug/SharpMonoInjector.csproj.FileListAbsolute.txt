@@ -1,0 +1,6 @@
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\build\Debug\SharpMonoInjector.dll
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\build\Debug\SharpMonoInjector.pdb
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector\obj\Debug\SharpMonoInjector.csproj.AssemblyReference.cache
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector\obj\Debug\SharpMonoInjector.csproj.CoreCompileInputs.cache
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector\obj\Debug\SharpMonoInjector.dll
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector\obj\Debug\SharpMonoInjector.pdb

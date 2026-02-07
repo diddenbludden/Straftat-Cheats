@@ -1,0 +1,17 @@
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\build\debug\smi_gui.exe.config
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\build\debug\smi_gui.exe
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\build\debug\smi_gui.pdb
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector.Gui\obj\Debug\SharpMonoInjector.Gui.csproj.AssemblyReference.cache
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector.Gui\obj\Debug\Views\MainWindow.g.cs
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector.Gui\obj\Debug\App.g.cs
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector.Gui\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector.Gui\obj\Debug\smi_gui_MarkupCompile.cache
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector.Gui\obj\Debug\smi_gui_MarkupCompile.lref
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector.Gui\obj\Debug\Views\MainWindow.baml
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector.Gui\obj\Debug\smi_gui.g.resources
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector.Gui\obj\Debug\SharpMonoInjector.Gui.Properties.Resources.resources
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector.Gui\obj\Debug\SharpMonoInjector.Gui.csproj.GenerateResource.cache
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector.Gui\obj\Debug\SharpMonoInjector.Gui.csproj.CoreCompileInputs.cache
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector.Gui\obj\Debug\SharpMon.C9DE6B73.Up2Date
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector.Gui\obj\Debug\smi_gui.exe
+D:\Downloads\SharpMonoInjector-master (1)\SharpMonoInjector-master\SharpMonoInjector.Gui\obj\Debug\smi_gui.pdb
