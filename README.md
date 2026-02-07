@@ -26,7 +26,9 @@ Choose the DLL (straftat.dll) to inject
 Click Inject to perform the injection
 
 Visual Reference
-![Screen](https://github.com/diddenbludden)
+![Screen]([https://github.com/diddenbludden](https://github.com/diddenbludden/Straftat-Cheats/blob/main/Images/sahur.png))
+![Screen]([https://github.com/diddenbludden](https://github.com/diddenbludden/Straftat-Cheats/blob/main/Images/tung.png))
 
 
 This fork includes fixes and updates for better stability and usability
+yes i used shatgpt to write dis
