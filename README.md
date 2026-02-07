@@ -1,22 +1,32 @@
-# Injector - 80he (Fixed and Updated)
+Injector - 80he (Fixed and Updated)
 
-#### Updated SharpMonoInjector to fix the process detection bug, x86/x64 detection bug fixed, and a couple fixes to make it more efficient. No modifications to his injection engine other than some added error checking. Built off Net 4.0 for those that are still on Win7 and can't run NetStandard 2.0. Since he didn't build-in any privilege checking I added some checks and the GUI version will automatically restart as Admin. The console version you'll get a warning and instructions on to 'fix' the game.
+This is an updated and fixed version of the 80he Injector, designed for safely injecting DLLs into target processes. The injector is intended for educational purposes and for developers looking to understand DLL injection mechanics.
 
-#### This was a great Unity injector until that nasty process detection and x86/64 bug, now it's actually usable again. I still prefer my injector though, it uses syscalls he uses CreateRemoteThread that is noisy to Anti-Cheat products. I might be partial, but either way Warbler the original creator of SharpMonoInjector deserves credit for his work.
+How to Use
 
-#### SharpMonoInjector is a tool for injecting assemblies into Mono embedded applications, commonly Unity Engine based games. The target process *usually* does not have to be restarted in order to inject an updated version of the assembly. Your unload method must destroy all of its resources (such as game objects).
+Download the Files
+Go to the Releases
+ section and download the following:
 
-#### SharpMonoInjector works by dynamically generating machine code, writing it to the target process and executing it using CreateRemoteThread. The code calls functions in the mono embedded API. The return value is obtained with ReadProcessMemory.
+injector.exe — The main injector application
 
-#### Both x86 and x64 processes are supported.
+straftat.dll — The DLL to be injected
 
-#### In order for the injector to work, the load/unload (Unload isn't required, optional) methods need to match the following method signature:
+Optional: Build From Source
+If you prefer not to use the precompiled binaries, both injector.exe and straftat.dll can be built manually from the source code. This ensures that you fully trust the binaries you are running.
 
-####    static void Method()
+Injection Process
 
+Run injector.exe
 
+Select the target process from the list
+
+Choose the DLL (straftat.dll) to inject
+
+Click Inject to perform the injection
+
+Visual Reference
 ![Screen](https://github.com/diddenbludden)
 
 
-### Credit's to Original Project and Author: (https://github.com/warbler/SharpMonoInjector)
-
+This fork includes fixes and updates for better stability and usability
