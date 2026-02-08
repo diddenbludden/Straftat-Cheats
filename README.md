@@ -26,6 +26,51 @@ Choose the DLL (strafthot.dll) to inject
 Click Inject to perform the injection
 
 Visual Reference
+# Features
+# Aiming:
+Aimbot - With FOV
+Silent Aim
+# Visuals:
+Esp (Flat Square)
+Esp (Box)
+FOV (Aimbot)
+Spam Effects - Patched/Host sometimes works
+Spam Killfeed - Patched/Host sometimes works
+# WeaponMods
+Inf Ammo
+Insta kill
+Rapid fire
+No spread
+No recoil
+Wallbang - Still works when hosting i think
+# Movement
+Walkspeed
+Jump Height
+Wall jump limit
+TP to enemy
+Flight
+# Misc
+God mode
+Lag Enemies
+Damage suppression
+Freeze Enemy - Host only
+Repulsor to mars (makes the repulsor gun have crazy repulsion)
+Disarm Enemies - Host
+Spoof name
+# Themes
+Dark
+Neon
+Red
+Purple
+
+
+# Roadmap
+- trying to find a workaround for wallbang
+- Spoof name currently only works for people you dont have friended on steam
+- adding more visuals like enemies screen goes black or like a flashbang, maybe some Tracers and arrows
+- readd unlock achievments - it broke and i was to lazy to fix it
+- make movement related options more feature rich and probably find a workaround for speed and jump so you dont need to be holding a gun
+
 ![Screen](https://github.com/diddenbludden/Straftat-Cheats/blob/main/Images/tung.png?raw=true)
 ![Screen](https://github.com/diddenbludden/Straftat-Cheats/blob/main/Images/sahur.png?raw=true)
 
