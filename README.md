@@ -28,40 +28,40 @@ Click Inject to perform the injection
 Visual Reference
 # Features
 # Aiming:
-Aimbot - With FOV
-Silent Aim
+- Aimbot - With FOV
+- Silent Aim
 # Visuals:
-Esp (Flat Square)
-Esp (Box)
-FOV (Aimbot)
-Spam Effects - Patched/Host sometimes works
-Spam Killfeed - Patched/Host sometimes works
+- Esp (Flat Square)
+- Esp (Box)
+- FOV (Aimbot)
+- Spam Effects - Patched/Host sometimes works
+- Spam Killfeed - Patched/Host sometimes works
 # WeaponMods
-Inf Ammo
-Insta kill
-Rapid fire
-No spread
-No recoil
-Wallbang - Still works when hosting i think
+- Inf Ammo
+- Insta kill
+- Rapid fire
+- No spread
+- No recoil
+- Wallbang - Still works when hosting i think
 # Movement
-Walkspeed
-Jump Height
-Wall jump limit
-TP to enemy
-Flight
+- Walkspeed
+- Jump Height
+- Wall jump limit
+- TP to enemy
+- Flight
 # Misc
-God mode
-Lag Enemies
-Damage suppression
-Freeze Enemy - Host only
-Repulsor to mars (makes the repulsor gun have crazy repulsion)
-Disarm Enemies - Host
-Spoof name
+- God mode
+- Lag Enemies - works well with the blaster
+- Damage suppression
+- Freeze Enemy - Host only
+- Repulsor to mars (makes the repulsor gun have crazy repulsion)
+- Disarm Enemies - Host
+- Spoof name
 # Themes
-Dark
-Neon
-Red
-Purple
+- Dark
+- Neon
+- Red
+- Purple
 
 
 # Roadmap
