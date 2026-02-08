@@ -10,7 +10,7 @@ Go to the Releases
 
 injector.exe — The main injector application
 
-straftat.dll — The DLL to be injected
+strafthot.dll — The DLL to be injected
 
 Optional: Build From Source
 If you prefer not to use the precompiled binaries, both injector.exe and straftat.dll can be built manually from the source code. This ensures that you fully trust the binaries you are running.
@@ -21,7 +21,7 @@ Run injector.exe
 
 Select the target process from the list
 
-Choose the DLL (straftat.dll) to inject
+Choose the DLL (strafthot.dll) to inject
 
 Click Inject to perform the injection
 
