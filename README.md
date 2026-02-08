@@ -1,4 +1,4 @@
-Injector - 80he (Fixed and Updated)
+Straftat - 80he (Fixed and Updated)
 
 This is an updated and fixed version of the 80he Injector, designed for safely injecting DLLs into target processes. The injector is intended for educational purposes and for developers looking to understand DLL injection mechanics.
 
