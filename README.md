@@ -6,8 +6,7 @@ Preview: https://youtu.be/-vDy3y9Jds4
 How to Use
 
 Download the Files
-Go to the Releases
- section and download the following:
+Go to the Releases section and download the following:
 
 injector.exe — The main injector application
 
