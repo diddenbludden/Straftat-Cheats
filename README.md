@@ -29,7 +29,7 @@ Click Inject to perform the injection
 Visual Reference
 # Features
 # Aiming:
-- Aimbot - With FOV
+- Aimbot - With FOV (Left alt + Right Click)
 - Silent Aim
 # Visuals:
 - Esp (Flat Square)
@@ -58,7 +58,7 @@ Visual Reference
 - Spoof Sprint Animation
 - Spoof Scope FX
 - Spoof Lean Animation
-- TP to enemy
+- TP to enemy (L)
 - Flight
 # Misc
 - God mode
@@ -68,6 +68,7 @@ Visual Reference
 - Repulsor to mars (makes the repulsor gun have crazy repulsion)
 - Disarm Enemies - Host
 - Spoof name
+- Unlock Achievments (F5)
 # Themes
 - Dark
 - Neon
