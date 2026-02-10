@@ -1,7 +1,8 @@
 Straftat - 80he (Update 10/02/26 01)
 
 This is an updated and fixed version of the 80he Injector, designed for safely injecting DLLs into target processes. The injector is intended for educational purposes and for developers looking to understand DLL injection mechanics.
-Preview: [https://youtu.be/-vDy3y9Jds4]
+Preview: https://youtu.be/-vDy3y9Jds4
+
 How to Use
 
 Download the Files
