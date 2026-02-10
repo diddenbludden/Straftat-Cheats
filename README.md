@@ -1,7 +1,7 @@
 Straftat - 80he (Update 10/02/26 01)
 
 This is an updated and fixed version of the 80he Injector, designed for safely injecting DLLs into target processes. The injector is intended for educational purposes and for developers looking to understand DLL injection mechanics.
-
+Preview: [https://youtu.be/-vDy3y9Jds4]
 How to Use
 
 Download the Files
@@ -93,7 +93,6 @@ Visual Reference
 - r̶e̶a̶d̶d̶ ̶u̶n̶l̶o̶c̶k̶ ̶a̶c̶h̶i̶e̶v̶m̶e̶n̶t̶s̶ ̶-̶ ̶i̶t̶ ̶b̶r̶o̶k̶e̶ ̶a̶n̶d̶ ̶i̶ ̶w̶a̶s̶ ̶t̶o̶ ̶l̶a̶z̶y̶ ̶t̶o̶ ̶f̶i̶x̶ ̶i̶t̶
 - m̶a̶k̶e̶ ̶m̶o̶v̶e̶m̶e̶n̶t̶ ̶r̶e̶l̶a̶t̶e̶d̶ ̶o̶p̶t̶i̶o̶n̶s̶ ̶m̶o̶r̶e̶ ̶f̶e̶a̶t̶u̶r̶e̶ ̶r̶i̶c̶h̶ ̶a̶n̶d̶ ̶p̶r̶o̶b̶a̶b̶l̶y̶ ̶f̶i̶n̶d̶ ̶a̶ ̶w̶o̶r̶k̶a̶r̶o̶u̶n̶d̶ ̶f̶o̶r̶ ̶s̶p̶e̶e̶d̶ ̶a̶n̶d̶ ̶j̶u̶m̶p̶ ̶s̶o̶ ̶y̶o̶u̶ ̶d̶o̶n̶t̶ ̶n̶e̶e̶d̶ ̶t̶o̶ ̶b̶e̶ ̶h̶o̶l̶d̶i̶n̶g̶ ̶a̶ ̶g̶u̶n̶
 
-![Screen](https://youtu.be/-vDy3y9Jds4)
 ![Screen](https://github.com/diddenbludden/Straftat-Cheats/blob/main/Images/tung.png?raw=true)
 ![Screen](https://github.com/diddenbludden/Straftat-Cheats/blob/main/Images/sahur.png?raw=true)
 
