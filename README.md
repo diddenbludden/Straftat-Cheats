@@ -11,6 +11,7 @@ Go to the Releases section and download the following:
 injector.exe — The main injector application
 
 strafthot.dll — The DLL to be injected
+
 SharpMonoInjector.dll - Injector DLL (injector wont work without this)
 
 Optional: Build From Source
