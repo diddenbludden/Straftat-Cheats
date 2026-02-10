@@ -11,6 +11,7 @@ Go to the Releases
 injector.exe — The main injector application
 
 strafthot.dll — The DLL to be injected
+SharpMonoInjector.dll - Injector DLL (injector wont work without this)
 
 Optional: Build From Source
 If you prefer not to use the precompiled binaries, both injector.exe and straftat.dll can be built manually from the source code. This ensures that you fully trust the binaries you are running.
