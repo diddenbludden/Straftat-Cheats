@@ -1,13 +1,26 @@
-﻿using HeathenEngineering.SteamworksIntegration.API;
+﻿using EpicSauceHack99;
+using FishNet.Connection;
+using HarmonyLib;
+using HeathenEngineering.SteamworksIntegration.API;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 using System.Net.Mail;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.Networking;
+using static UnityEngine.UI.GridLayoutGroup;
+using System.Linq;
+using System.Net;
+using FishNet;
+using FishNet.Managing;
+using FishNet.Managing.Object;
+using FishNet.Object;
+using HeathenEngineering.SteamworksIntegration;
 
 namespace strafthot.Features
 {
-    public class Misc
+    public class Misc : MonoBehaviour
     {
         private readonly Cache _cache;
 
@@ -17,11 +30,11 @@ namespace strafthot.Features
 
         private const float SpamInterval = 0f; // 1 second interval for spam actions
 
+
         public Misc()
         {
-            _cache = Cheat.Instance.Cache;
+            _cache = Cheat.Instance.Catch;
         }
-
         private void GodMode(PlayerHealth localPlayer)
         {
             if (localPlayer != null)
@@ -31,14 +44,20 @@ namespace strafthot.Features
         // -----------------------
         // Reflection Helpers
         // -----------------------
-        private void SetPlayerName(PlayerCache player, string newName)
+
+        // Harmony patch for the method that returns the player's name
+        [HarmonyPatch(typeof(ClientInstance), "SetSyncValues")]
+        public static bool SetplayerName(string PlayerName, bool isServer, NetworkConnection owner, ulong currentLobbyID, ulong steamId)
         {
-            if (player == null || string.IsNullOrEmpty(newName)) return;
+            if (string.IsNullOrEmpty(Config.Instance.Name))
+            {
+                return true;
+            }
 
-            var field = typeof(PlayerCache).GetField("PlayerName", BindingFlags.Instance | BindingFlags.NonPublic);
-            field?.SetValue(player, newName);
+            PlayerName = Config.Instance.Name;
+            steamId = 76561198000000000uL;
+            return true;
         }
-
         private void CallMethod(GameObject obj, string methodName)
         {
             if (obj == null) return;
@@ -97,14 +116,9 @@ namespace strafthot.Features
             // --------------------
             // SPOOFED NAME
             // --------------------
-            if ((Config.Instance.SpoofedName) && _spoofNameTimer >= SpamInterval && localPlayer != null)
-            {
-                SetPlayerName(localPlayer, "Mai Sakurajima");
-                _spoofNameTimer = 0f;
-            }
 
             // --------------------
-            // SPAM TAUNT
+            // SPAM
 
             // --------------------
             // SPAM KILLFEED
@@ -115,10 +129,6 @@ namespace strafthot.Features
                     SendKillfeed(enemy, Config.Instance.KillfeedMessage);
                 _killfeedTimer = 0f;
             }
-
-            // --------------------
-            // DEBUG HOTKEYS / ACHIEVEMENTS
-            // --------------------
         }
     }
 }

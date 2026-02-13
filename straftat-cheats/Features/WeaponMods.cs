@@ -1,10 +1,11 @@
-﻿using System;
+﻿using DG.Tweening;
+using EpicSauceHack99;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using DG.Tweening;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Vector3 = UnityEngine.Vector3;
@@ -13,14 +14,60 @@ namespace strafthot.Features
 {
     public class WeaponMods
     {
+        public static Weapon localWeapon = null;
         private static FieldInfo _recoilField;
         private static Weapon _lastWeapon;
         private static float _lastSpam = 0f;
         private static bool _previousFreezeEnemy = false;
+        public static List<PlayerHealth> players = new List<PlayerHealth>();
+
+        public static List<Suppression> suppressions = new List<Suppression>();
+
+        public static List<Weapon> weapons = new List<Weapon>();
+
+        public static Camera mainCamera;
+
+        public static PlayerHealth localPlayer;
+
+        public static PlayerHealth enemyPlayer;
+
+        public static Transform enemyHead = null;
+
+        public static FirstPersonController controller;
+
+        private float lastUpdated = 0f;
+
+        private float lastSpam = 0f;
+
+        public static Shader shader = null;
+
+        private FieldInfo CosmeticsManager_suitsChildren = typeof(CosmeticsManager).GetField("suitsChildren", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private FieldInfo CosmeticsManager_hatsChildren = typeof(CosmeticsManager).GetField("hatsChildren", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private MethodInfo steal = typeof(PlayerPickup).GetMethod("RpcLogic___SetObjectInHandServer_46969756", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private FieldInfo gravity = typeof(FirstPersonController).GetField("gravity", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private FieldInfo crouchGravity = typeof(FirstPersonController).GetField("crouchGravity", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private FieldInfo jumpGravity = typeof(FirstPersonController).GetField("jumpGravity", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private FieldInfo WeaponHandSpawnerproximityMine = typeof(WeaponHandSpawner).GetField("proximityMine", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private FieldInfo WeaponHandSpawnerclaymore = typeof(WeaponHandSpawner).GetField("claymore", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private FieldInfo WeaponHandSpawnerobjToSpawn = typeof(WeaponHandSpawner).GetField("objToSpawn", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private FieldInfo PlayerPickupcam = typeof(PlayerPickup).GetField("cam", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private MethodInfo PlayerPickupRightHandPickup = typeof(PlayerPickup).GetMethod("RightHandPickup", BindingFlags.Instance | BindingFlags.NonPublic);
+
 
         // --------------------------
         // WALLBREAK INTEGRATION
         // --------------------------
+
         public static void FireWallbreak(Transform shooter, Weapon weapon, float maxDistance = 1000f)
         {
             if (shooter == null || weapon == null) return;
@@ -123,7 +170,7 @@ namespace strafthot.Features
 
         public static void SendKillfeedMessage(string message)
         {
-            foreach (var player in Cheat.Instance.Cache.Players)
+            foreach (var player in Cheat.Instance.Catch.Players)
             {
                 if (player?.GameObject == null)
                     continue;
@@ -155,14 +202,14 @@ namespace strafthot.Features
             if (Config.Instance.FreezeEnemy != _previousFreezeEnemy)
             {
                 // Get Aimbot from the existing Cache instance
-                var aimbot = Cheat.Instance.Cache.Aimbot;
+                var aimbot = Cheat.Instance.Catch.Aimbot;
                 var closestEnemy = aimbot.GetClosestTarget();
 
                 if (closestEnemy != null && closestEnemy.PlayerHealth.health > 0)
                 {
                     closestEnemy.PlayerHealth.controller.sync___set_value_canMove(
                         !closestEnemy.PlayerHealth.controller.sync___get_value_canMove(),
-                        Cheat.Instance.Cache.LocalPlayer.PlayerHealth.IsHost
+                        Cheat.Instance.Catch.LocalPlayer.PlayerHealth.IsHost
                     );
                 }
 
@@ -170,14 +217,9 @@ namespace strafthot.Features
             }
 
             // -------- DISARM --------
-            if (Config.Instance.RemoveEnemyWeapons)
-            {
-                Weapon w = enemy.GetComponentInChildren<Weapon>();
-                if (w != null) Object.Destroy(w.gameObject);
-            }
 
             // -------- SUPPRESSION --------
-            if (Config.Instance.SpamProjectiles)
+            if (Config.Instance.SpamSuppression)
             {
                 MethodInfo suppress = typeof(PlayerHealth)
                     .GetMethod("ApplySuppression", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
@@ -210,7 +252,12 @@ namespace strafthot.Features
         private static void InstaKill(Weapon weapon)
         {
             if (!weapon) return;
-            weapon.damage = 25001;
+            weapon.damage = 6942067;
+        }
+        private static void Damage(Weapon weapon)
+        {
+            if (!weapon) return;
+            weapon.damage = Config.Instance.WDamage;
         }
 
         private static void NoSpread(Weapon weapon)
@@ -256,69 +303,29 @@ namespace strafthot.Features
             }
         }
 
-        private static void SpamProjectiles(Weapon weapon)
-        {
-            if (!Config.Instance.SpamProjectiles || Cheat.Instance.Cache.EnemyPlayer == null ||
-                !Cheat.Instance.Cache.EnemyPlayer.transform || !(Time.time - _lastSpam > 0.1f))
-                return;
-
-            MethodInfo method = weapon.GetType().GetMethod("ServerFire", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (method != null)
-            {
-                for (int i = 0; i < 360; i += 10)
-                {
-                    Vector3 dir = Quaternion.Euler(0f, i, 0f) * Vector3.forward;
-                    Vector3 pos = Cheat.Instance.Cache.EnemyPlayer.transform.position + dir * 2f;
-                    method?.Invoke(weapon, new object[] { pos, Vector3.up, weapon.TimeManager.Tick });
-                }
-                _lastSpam = Time.time;
-            }
-        }
-
-        private static void SpamEffects(Weapon weapon)
-        {
-            if (!Config.Instance.SpamEffects || Cheat.Instance.Cache.LocalPlayer == null ||
-                Cheat.Instance.Cache.EnemyPlayer == null || !Cheat.Instance.Cache.EnemyPlayer.transform)
-                return;
-
-            MethodInfo method = weapon.GetType().GetMethod("RpcWriter___Server_ServerFX_3848837105", BindingFlags.Instance | BindingFlags.NonPublic);
-            MethodInfo method2 = weapon.GetType().GetMethod("RpcWriter___Observers_ObserversFX_3848837105", BindingFlags.Instance | BindingFlags.NonPublic);
-
-            if (method != null)
-            {
-                for (int i = 0; i < Config.Instance.Strength; i++)
-                {
-                    method.Invoke(weapon, new object[] { Cheat.Instance.Cache.EnemyPlayer.transform.position + Vector3.up, Quaternion.identity });
-                }
-            }
-
-            if (method2 != null)
-            {
-                for (int i = 0; i < Config.Instance.Strength; i++)
-                {
-                    method2.Invoke(weapon, new object[] { Cheat.Instance.Cache.EnemyPlayer.transform.position + Vector3.up, Quaternion.identity });
-                }
-            }
-        }
-
         private static void RepulseToMars(Weapon weapon)
         {
-            if (!Config.Instance.RepulsorToMars || Cheat.Instance.Cache.EnemyPlayer == null) return;
-
-            weapon.GetType().GetMethod("BumpPlayerServer", BindingFlags.Instance | BindingFlags.NonPublic)
-                ?.Invoke(weapon, new object[] { Vector3.up, 10, Cheat.Instance.Cache.EnemyPlayer });
+            if (Config.Instance.RepulsorToMars && (bool)enemyPlayer)
+            {
+                weapon.GetType().GetMethod("BumpPlayerServer", BindingFlags.Instance | BindingFlags.NonPublic)?.Invoke(weapon, new object[3]
+                {
+                Vector3.up,
+                10,
+                enemyPlayer
+                });
+            }
         }
 
         private static void SpamSuppression(Weapon weapon)
         {
-            if (!Config.Instance.SpamProjectiles || Cheat.Instance.Cache.LocalPlayer == null ||
-                Cheat.Instance.Cache.EnemyPlayer == null || !Cheat.Instance.Cache.EnemyPlayer.transform)
+            if (!Config.Instance.SpamSuppression || Cheat.Instance.Catch.LocalPlayer == null ||
+                Cheat.Instance.Catch.EnemyPlayer == null || !Cheat.Instance.Catch.EnemyPlayer.transform)
                 return;
 
             MethodInfo method = weapon.GetType().GetMethod("SupressionServer", BindingFlags.Instance | BindingFlags.NonPublic);
             if (method != null)
             {
-                foreach (var suppression in Cheat.Instance.Cache.Suppressions)
+                foreach (var suppression in Cheat.Instance.Catch.Suppressions)
                 {
                     method.Invoke(weapon, new object[] { suppression.transform });
                 }
@@ -327,17 +334,17 @@ namespace strafthot.Features
 
         private static void GodMode(Weapon weapon)
         {
-            if (!Config.Instance.GodMode || Cheat.Instance.Cache.LocalPlayer == null ||
-                Cheat.Instance.Cache.PlayerH.health >= 9999f) return;
+            if (!Config.Instance.GodMode || Cheat.Instance.Catch.LocalPlayer == null ||
+                Cheat.Instance.Catch.PlayerH.health >= 9999f) return;
 
             weapon.GetType().GetMethod("GiveDamage", BindingFlags.Instance | BindingFlags.NonPublic)
-                ?.Invoke(weapon, new object[] { float.MinValue, Cheat.Instance.Cache.LocalPlayer, "ballsack" });
+                ?.Invoke(weapon, new object[] { float.MinValue, Cheat.Instance.Catch.LocalPlayer, "ballsack" });
         }
 
         public static void Update()
         {
-            Weapon leftWeapon = Cheat.Instance.Cache.LocalWeaponLeft;
-            Weapon rightWeapon = Cheat.Instance.Cache.LocalWeaponRight;
+            Weapon leftWeapon = Cheat.Instance.Catch.LocalWeaponLeft;
+            Weapon rightWeapon = Cheat.Instance.Catch.LocalWeaponRight;
 
             // -----------------
             // WEAPON MODS
@@ -375,9 +382,9 @@ namespace strafthot.Features
             // -----------------
             // WALLBREAK / EXPLOSIVE AMMO
             // -----------------
-            if (Config.Instance.Wallbang && rightWeapon != null && Cheat.Instance.Cache.LocalController != null)
+            if (Config.Instance.Wallbang && rightWeapon != null && Cheat.Instance.Catch.LocalController != null)
             {
-                FireWallbreak(Cheat.Instance.Cache.LocalController.transform, rightWeapon);
+                FireWallbreak(Cheat.Instance.Catch.LocalController.transform, rightWeapon);
             }
 
             // -----------------
@@ -385,8 +392,6 @@ namespace strafthot.Features
             // -----------------
             if (rightWeapon != null)
             {
-                SpamProjectiles(rightWeapon);
-                SpamEffects(rightWeapon);
                 RepulseToMars(rightWeapon);
                 SpamSuppression(rightWeapon);
                 GodMode(rightWeapon);

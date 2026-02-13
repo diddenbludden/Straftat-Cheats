@@ -12,10 +12,10 @@ namespace strafthot.Features
         {
             // Check if both the aimbot is enabled AND the FOV circle toggle is on
             if (Config.Instance.Aimbot && Config.Instance.DrawFOVCircle &&
-                Cheat.Instance.Cache != null && Cheat.Instance.Cache.Aimbot != null)
+                Cheat.Instance.Catch != null && Cheat.Instance.Catch.Aimbot != null)
             {
                 // Call the DrawFOVCircle method from the Aimbot instance
-                Cheat.Instance.Cache.Aimbot.DrawFOVCircle();
+                Cheat.Instance.Catch.Aimbot.DrawFOVCircle();
             }
         }
     }

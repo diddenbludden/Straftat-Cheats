@@ -67,16 +67,17 @@ namespace strafthot.Features
         private const uint MOUSEEVENTF_LEFTUP = 0x04;
         private readonly Cache _cache;
         private bool _isEnabled = false;
+        private bool _isEnabled1 = false;
         private const float HEAD_OFFSET = 1.5f;
         private bool _isMouseHold = false;
         private bool _previousFlyMode = false;
         private bool _previousFreezeEnemy = false;
 
-        // FOV circle properties
-        private float _fovRadius = 100f; // Default FOV radius in pixels
+        // FOV circle properties // Default FOV radius in pixels
         private Color _fovColor = Config.Instance.FOVColor;
 
         public bool IsEnabled => _isEnabled;
+        public bool IsEnabled1 => _isEnabled1;
 
         public Aimbot(Cache cache)
         {
@@ -85,26 +86,7 @@ namespace strafthot.Features
 
         public void Update()
         {
-            // Check if Left Alt is pressed to toggle aimbot
-            if (Input.GetKeyDown(KeyCode.LeftAlt))
-            {
-                Config.Instance.Aimbot = !Config.Instance.Aimbot;
-                _isEnabled = Config.Instance.Aimbot;
-                if (_isEnabled)
-                {
-                    PlayHitMarker(_cache.LocalWeaponLeft);
-                    Config.Instance.AddDebugLog("Aimbot: Activated");
-                }
-                else
-                {
-                    Config.Instance.AddDebugLog("Aimbot: Deactivated");
-                    if (_isMouseHold == true)
-                    {
-                        MouseRelease();
-                        _isMouseHold = false;
-                    }
-                }
-            }
+            // Custom keybind for Aimbot
 
             if (Config.Instance.MagicBullet && _cache.LocalWeaponRight != null && _cache.LocalWeaponRight.fire1.IsPressed())
             {
@@ -140,11 +122,29 @@ namespace strafthot.Features
                 _previousFreezeEnemy = Config.Instance.FreezeEnemy;
             }
 
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Config.Instance.Teleport)
             {
-                PlayerCache _closest = GetClosestTarget();
-                _cache.LocalController.Teleport(_closest.HeadTransform.position, 0f, false, _closest.HeadTransform, 1, 1, false);
-                _closest.PlayerHealth.sync___set_value_health(100f, true);
+                Config.Instance.AddDebugLog("Teleport On");
+                {
+                    PlayerCache _closest = GetClosestTarget();
+
+                    if (_closest != null && _closest.HeadTransform != null)
+                    {
+                        _cache.LocalController.Teleport(
+                            _closest.HeadTransform.position,
+                            0f,
+                            false,
+                            _closest.HeadTransform,
+                            1,
+                            1,
+                            false
+                        );
+
+                        _closest.PlayerHealth.sync___set_value_health(100f, true);
+                        Config.Instance.AddDebugLog("Teleport used");
+                        Config.Instance.Teleport = !Config.Instance.Teleport;
+                    }
+                }
             }
 
             if (!Config.Instance.Aimbot || !_cache.LocalPlayer.IsValid || !_cache.MainCamera)
@@ -191,7 +191,7 @@ namespace strafthot.Features
             Vector3 screenPos = _cache.MainCamera.WorldToScreenPoint(closestPlayer.HeadTransform.position);
             float distanceFromCenter = Vector2.Distance(screenPos, new Vector2(Screen.width / 2, Screen.height / 2));
 
-            if (distanceFromCenter > _fovRadius)
+            if (distanceFromCenter > Config.Instance._fovRadius)
                 return;
 
             Vector3 targetPosition;
@@ -231,7 +231,7 @@ namespace strafthot.Features
                 float distanceFromCenter = Vector2.Distance(screenPos, new Vector2(Screen.width / 2, Screen.height / 2));
 
                 // Skip players outside the FOV circle
-                if (distanceFromCenter > _fovRadius)
+                if (distanceFromCenter > Config.Instance._fovRadius)
                     continue;
 
                 float distance = Vector3.Distance(_cache.LocalPlayer.GameObject.transform.position, player.GameObject.transform.position);
@@ -253,7 +253,7 @@ namespace strafthot.Features
 
             Vector2 center = new Vector2(Screen.width / 2, Screen.height / 2);
             int segments = 100; // Smoothness of circle
-            float radius = _fovRadius;
+            float radius = Config.Instance._fovRadius;
 
             // Use live color from config
             Color color = Config.Instance.FOVColor;
@@ -282,7 +282,7 @@ namespace strafthot.Features
         // Method to adjust FOV radius
         public void SetFOVRadius(float radius)
         {
-            _fovRadius = Mathf.Clamp(radius, 50f, 300f);
+            Config.Instance._fovRadius = Mathf.Clamp(radius, 50f, 300f);
         }
 
         // Method to adjust FOV color
