@@ -1,4 +1,5 @@
-﻿using FishNet.Object;
+﻿using FishNet.Demo.AdditiveScenes;
+using FishNet.Object;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace strafthot
 
         public GameObject GameObject { get; private set; }
         public Color espColor = Config.Instance.ESPColor;
+        public Color tracerColor = Config.Instance.tracerColor;
+        public Color chamsColor = Config.Instance.chamsColor;
         public Transform HeadTransform { get; private set; }
         public Collider Collider { get; private set; }
         public PlayerHealth PlayerHealth { get; private set; }
@@ -79,6 +82,42 @@ namespace strafthot
                 true
             );
         }
+        public void DrawTracer(Camera camera, Vector3 startPos)
+        {
+            if (GameObject == null || HeadTransform == null || camera == null)
+                return;
+
+            Vector3 targetPos = camera.WorldToScreenPoint(HeadTransform.position);
+            if (targetPos.z < 0) return;
+            targetPos.y = Screen.height - targetPos.y;
+
+            Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+            Utils.DrawTracer(
+                Cheat.Instance.Catch.MainCamera,     // Camera
+                HeadTransform.position,       // World position of target
+                screenCenter,                        // Start of tracer (screen center)
+                tracerColor,                     // Color
+                1f                                   // Width
+            );
+        }
+        private Material chamMaterial;
+
+        public static void EnableChams(GameObject obj, Color color)
+        {
+            if (obj == null) return;
+
+            Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
+            foreach (Renderer r in renderers)
+            {
+                // Create a unique material for each renderer
+                Material chamMaterial = new Material(Shader.Find("Unlit/Color"));
+                chamMaterial.color = color;
+                chamMaterial.SetInt("_ZTest", (int)UnityEngine.Rendering.CompareFunction.Always); // draw through walls
+
+                r.material = chamMaterial;
+            }
+        }
+
         public void Draw1(Camera camera)
         {
             if (GameObject == null || GameObject.transform == null || camera == null || Collider == null || PlayerHealth == null)

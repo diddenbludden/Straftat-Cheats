@@ -33,6 +33,7 @@ namespace strafthot
         public Camera MainCamera { get; private set; }
         public List<PlayerCache> Players => _players;
         public Aimbot Aimbot { get; private set; }
+        public Settings Settings { get; private set; }
 
         // Convenience: all valid enemies
         public IEnumerable<PlayerCache> EnemyPlayers => _players.Where(p => p.IsValid);
@@ -98,14 +99,6 @@ namespace strafthot
                     .ToList();
             }
         }
-        private void SetPlayerName(string newName)
-        {
-            if (LocalPlayer == null || string.IsNullOrEmpty(newName))
-                return;
-
-            FieldInfo field = typeof(PlayerCache).GetField("PlayerName", BindingFlags.Instance | BindingFlags.NonPublic);
-            field?.SetValue(LocalPlayer, newName);
-        }
 
         private void SpamKillfeed()
         {
@@ -116,7 +109,7 @@ namespace strafthot
 
         private void SpamSuppression()
         {
-            if (!Config.Instance.SpamProjectiles) return;
+            if (!Config.Instance.SpamSuppression) return;
 
             foreach (var enemy in EnemyPlayers)
             {
@@ -131,6 +124,7 @@ namespace strafthot
         // MAIN UPDATE LOOP
         // ----------------------------
 
+
         public void Update()
         {
             // Refresh cache periodically
@@ -142,10 +136,10 @@ namespace strafthot
 
             // Aimbot update
             Aimbot.Update();
+            Config.Instance.HandleKeyToggles();
+            Config.Instance.ProcessKeyBind();
 
             // Auto features
-            if ((Config.Instance.SpoofedName))
-                SetPlayerName("Mai Sakurajima");
 
             SpamKillfeed();
             SpamSuppression();

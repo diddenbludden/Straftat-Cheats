@@ -29,7 +29,41 @@ namespace strafthot
 
             return _drawMaterial;
         }
+        // Draws a line from screenStart to a world position projected on screen
+        public static void DrawTracer(Camera camera, Vector3 worldPos, Vector3 screenStart, Color color, float width = 1f)
+        {
+            Vector3 screenPos = camera.WorldToScreenPoint(worldPos);
+            if (screenPos.z < 0) return;
+            screenPos.y = Screen.height - screenPos.y;
 
+            GL.PushMatrix();
+            GL.LoadPixelMatrix(0, Screen.width, Screen.height, 0);
+            GetDrawMat().SetPass(0);
+
+            GL.Begin(GL.LINES);
+            GL.Color(color);
+            GL.Vertex(new Vector3(screenStart.x, screenStart.y, 0));
+            GL.Vertex(new Vector3(screenPos.x, screenPos.y, 0));
+            GL.End();
+            GL.PopMatrix();
+        }
+
+        // Enables simple chams for a player GameObject
+        public static void EnableChams(GameObject obj, Color color)
+        {
+            if (obj == null) return;
+
+            Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
+            foreach (Renderer r in renderers)
+            {
+                // Create a unique material for each renderer
+                Material chamMaterial = new Material(Shader.Find("Unlit/Color"));
+                chamMaterial.color = color;
+                chamMaterial.SetInt("_ZTest", (int)UnityEngine.Rendering.CompareFunction.Always); // draw through walls
+
+                r.material = chamMaterial;
+            }
+        }
         public static void DrawText(Vector2 position, string text, Color color, int fontSize, bool center = false)
         {
             if (_style == null)
