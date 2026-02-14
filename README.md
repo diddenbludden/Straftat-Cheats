@@ -1,4 +1,4 @@
-[website](https://straftard.github.io/)
+[Straftard Website](https://straftard.github.io/)
 
 Straftat - 80he (Update 10/02/26 01)
 ➡️ [Feature Request](https://github.com/diddenbludden/Straftat-Cheats/issues/new/choose)
