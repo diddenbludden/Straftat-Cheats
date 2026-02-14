@@ -37,7 +37,6 @@ Choose the DLL (strafthot.dll) to inject
 
 Click Inject to perform the injection
 
-Visual Reference
 # Features
 # Aiming:
 - Aimbot 
