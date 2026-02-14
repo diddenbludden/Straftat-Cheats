@@ -10,8 +10,8 @@ Straftat - 80he (Update 10/02/26 01)
 **Improved the lag enemies to actually crash their games**
 
 
-Preview: https://youtu.be/-vDy3y9Jds4
-
+Preview (old): https://youtu.be/-vDy3y9Jds4
+new showcase vid soon
 How to Use
 
 Download the Files
