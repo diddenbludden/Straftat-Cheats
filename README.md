@@ -17,14 +17,12 @@ new showcase vid soon
 
 How to Use
 
-Download the Files
-Go to the Releases section and download the following:
+# Download the Files
+** Go to the Releases section and download the following: **
 
-injector.exe — The main injector application
+** Launcher.exe **
 
-strafthot.dll — The DLL to be injected
-
-SharpMonoInjector.dll - Injector DLL (injector wont work without this)
+** SharpMonoInjector.dll - Launcher DLL (Launcher wont work without this) **
 
 Optional: Build From Source
 If you prefer not to use the precompiled binaries, both injector.exe and straftat.dll can be built manually from the source code. This ensures that you fully trust the binaries you are running.
