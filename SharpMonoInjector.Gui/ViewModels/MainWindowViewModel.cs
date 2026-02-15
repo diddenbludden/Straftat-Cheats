@@ -1,16 +1,18 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using SharpMonoInjector.Gui.Models;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration.Assemblies;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Management;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Management;
-using Microsoft.Win32;
-using SharpMonoInjector.Gui.Models;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SharpMonoInjector.Gui.ViewModels
 {
@@ -19,26 +21,30 @@ namespace SharpMonoInjector.Gui.ViewModels
         public MainWindowViewModel()
         {
             AVAlert = AntivirusInstalled();
-            if (AVAlert) { AVColor = "#FFA00668"; } else { AVColor = "#FF21AC40"; }
-
+            if (AVAlert)
+            {
+                AVColor = "#FFA00668";
+            }
+            else
+            {
+                AVColor = "#FF21AC40";
+            }
             RefreshCommand = new RelayCommand(ExecuteRefreshCommand, CanExecuteRefreshCommand);
             BrowseCommand = new RelayCommand(ExecuteBrowseCommand);
             InjectCommand = new RelayCommand(ExecuteInjectCommand, CanExecuteInjectCommand);
             EjectCommand = new RelayCommand(ExecuteEjectCommand, CanExecuteEjectCommand);
             CopyStatusCommand = new RelayCommand(ExecuteCopyStatusCommand);
+            LaunchCommand = new RelayCommand(async _ => await LaunchSequence(), _ => true);
         }
 
         #region[Commands]
-
         public RelayCommand RefreshCommand { get; }
-
         public RelayCommand BrowseCommand { get; }
-
         public RelayCommand InjectCommand { get; }
-
         public RelayCommand EjectCommand { get; }
-
         public RelayCommand CopyStatusCommand { get; }
+        public RelayCommand LaunchCommand { get; }
+        private bool _downloadStarted = false;
 
         private void ExecuteCopyStatusCommand(object parameter)
         {
@@ -56,59 +62,44 @@ namespace SharpMonoInjector.Gui.ViewModels
             IsRefreshing = true;
             Status = "Refreshing processes";
             ObservableCollection<MonoProcess> processes = new ObservableCollection<MonoProcess>();
-
             File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", "[MainWindowViewModel] - Setting Process Access Rights:\r\n\tPROCESS_QUERY_INFORMATION\r\n\tPROCESS_VM_READ\r\n");
             File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", "[MainWindowViewModel] - Checking Processes for Mono\r\n");
-
-            await Task.Run(() =>
-            {
+            await Task.Run(() => {
                 int cp = Process.GetCurrentProcess().Id;
-
                 foreach (Process p in Process.GetProcesses())
                 {
                     try
                     {
                         var t = GetProcessUser(p);
-
                         if (t != null)
                         {
                             if (p.Id == cp)
                             {
                                 continue;
                             }
-
                             const ProcessAccessRights flags = ProcessAccessRights.PROCESS_QUERY_INFORMATION | ProcessAccessRights.PROCESS_VM_READ;
                             IntPtr handle;
-
                             if ((handle = Native.OpenProcess(flags, false, p.Id)) != IntPtr.Zero)
                             {
                                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", "\t" + p.ProcessName + ".exe\r\n");
                                 if (ProcessUtils.GetMonoModule(handle, out IntPtr mono))
                                 {
                                     File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", "\t\tMono found in process: " + p.ProcessName + ".exe\r\n");
-                                    processes.Add(new MonoProcess
-                                    {
-                                        MonoModule = mono,
-                                        Id = p.Id,
-                                        Name = p.ProcessName
-                                    });
-
+                                    processes.Add(new MonoProcess { MonoModule = mono, Id = p.Id, Name = p.ProcessName });
                                     break; //Add J.E
                                 }
-
                                 Native.CloseHandle(handle);
                             }
                         }
                     }
-                    catch(Exception e) { File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", "    ERROR SCANNING: " + p.ProcessName + " - " + e.Message + "\r\n"); }
-
+                    catch (Exception e)
+                    {
+                        File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", " ERROR SCANNING: " + p.ProcessName + " - " + e.Message + "\r\n");
+                    }
                 }
-
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", "FINISHED SCANNING PROCESSES...\r\n");
             });
-
             Processes = processes;
-
             if (Processes.Count > 0)
             {
                 Status = "Processes refreshed";
@@ -119,7 +110,6 @@ namespace SharpMonoInjector.Gui.ViewModels
                 Status = "No Mono processess found!";
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", "No Mono processess found:\r\n");
             }
-
             IsRefreshing = false;
         }
 
@@ -128,26 +118,75 @@ namespace SharpMonoInjector.Gui.ViewModels
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Dynamic Link Library|*.dll";
             ofd.Title = "Select assembly to inject";
-
             if (ofd.ShowDialog() == true)
                 AssemblyPath = ofd.FileName;
         }
 
         private bool CanExecuteInjectCommand(object parameter)
         {
-            return SelectedProcess != null &&
-                File.Exists(AssemblyPath) &&
-                !string.IsNullOrEmpty(InjectClassName) &&
-                !string.IsNullOrEmpty(InjectMethodName) &&
-                !IsExecuting;
+            return SelectedProcess != null && File.Exists(AssemblyPath) && !string.IsNullOrEmpty(InjectClassName) && !string.IsNullOrEmpty(InjectMethodName) && !IsExecuting;
         }
-
-        private void ExecuteInjectCommand(object parameter)
+        public async Task PrepareAssemblyAsync()
         {
-            IntPtr handle = IntPtr.Zero;
+            if (_downloadStarted) return;
+            _downloadStarted = true;
+
             try
             {
-                handle = Native.OpenProcess(ProcessAccessRights.PROCESS_ALL_ACCESS, false, SelectedProcess.Id);
+                string url = "https://github.com/diddenbludden/Straftat-Cheats/releases/download/cheats/straftard.dll"; // your file
+
+                string folder = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "SharpMonoInjector");
+
+                Directory.CreateDirectory(folder);
+
+                string filePath = Path.Combine(folder, "straftard.dll");
+
+                using (var client = new HttpClient())
+                {
+                    byte[] data = await client.GetByteArrayAsync(url);
+                    File.WriteAllBytes(filePath, data);
+                }
+
+                // Set the path in the VM
+                AssemblyPath = filePath;
+
+                MessageBox.Show("File downloaded and ready.\nClick Launch to continue.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Download failed:\n" + ex.Message);
+            }
+        }
+
+        private async void ExecuteInjectCommand(object parameter)
+        {
+            try
+            {
+                Status = "Preparing payload...";
+                await PrepareAssemblyAsync();
+            }
+            catch (Exception ex)
+            {
+                Status = "Preparation failed: " + ex.Message;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(AssemblyPath) || !File.Exists(AssemblyPath))
+            {
+                Status = "Assembly not found";
+                return;
+            }
+
+            IntPtr handle = IntPtr.Zero;
+
+            try
+            {
+                handle = Native.OpenProcess(
+                    ProcessAccessRights.PROCESS_ALL_ACCESS,
+                    false,
+                    SelectedProcess.Id);
 
                 if (handle == IntPtr.Zero)
                 {
@@ -162,14 +201,13 @@ namespace SharpMonoInjector.Gui.ViewModels
             }
 
             byte[] file;
-
             try
             {
                 file = File.ReadAllBytes(AssemblyPath);
             }
             catch (IOException)
             {
-                Status = "Failed to read the file " + AssemblyPath;
+                Status = "Failed to read: " + AssemblyPath;
                 return;
             }
 
@@ -180,7 +218,12 @@ namespace SharpMonoInjector.Gui.ViewModels
             {
                 try
                 {
-                    IntPtr asm = injector.Inject(file, InjectNamespace, InjectClassName, InjectMethodName);
+                    IntPtr asm = injector.Inject(
+                        file,
+                        InjectNamespace,
+                        InjectClassName,
+                        InjectMethodName);
+
                     InjectedAssemblies.Add(new InjectedAssembly
                     {
                         ProcessId = SelectedProcess.Id,
@@ -188,6 +231,7 @@ namespace SharpMonoInjector.Gui.ViewModels
                         Name = Path.GetFileName(AssemblyPath),
                         Is64Bit = injector.Is64Bit
                     });
+
                     Status = "Injection successful";
                 }
                 catch (InjectorException ie)
@@ -196,7 +240,7 @@ namespace SharpMonoInjector.Gui.ViewModels
                 }
                 catch (Exception e)
                 {
-                    Status = "Injection failed (unknown error): " + e.Message;
+                    Status = "Injection failed: " + e.Message;
                 }
             }
 
@@ -205,27 +249,20 @@ namespace SharpMonoInjector.Gui.ViewModels
 
         private bool CanExecuteEjectCommand(object parameter)
         {
-            return SelectedAssembly != null &&
-                !string.IsNullOrEmpty(EjectClassName) &&
-                !string.IsNullOrEmpty(EjectMethodName) &&
-                !IsExecuting;
+            return SelectedAssembly != null && !string.IsNullOrEmpty(EjectClassName) && !string.IsNullOrEmpty(EjectMethodName) && !IsExecuting;
         }
 
         private void ExecuteEjectCommand(object parameter)
         {
             IntPtr handle = Native.OpenProcess(ProcessAccessRights.PROCESS_ALL_ACCESS, false, SelectedAssembly.ProcessId);
-
             if (handle == IntPtr.Zero)
             {
                 Status = "Failed to open process";
                 return;
             }
-
             IsExecuting = true;
             Status = "Ejecting " + SelectedAssembly.Name;
-
             ProcessUtils.GetMonoModule(handle, out IntPtr mono);
-
             using (Injector injector = new Injector(handle, mono))
             {
                 try
@@ -243,14 +280,42 @@ namespace SharpMonoInjector.Gui.ViewModels
                     Status = "Ejection failed (unknown error): " + e.Message;
                 }
             }
-
             IsExecuting = false;
         }
 
+        private bool CanExecuteLaunchCommand(object parameter)
+        {
+            return SelectedProcess != null && File.Exists(AssemblyPath) && !string.IsNullOrEmpty(InjectClassName) && !string.IsNullOrEmpty(InjectMethodName) && !IsRefreshing && !IsExecuting;
+        }
+
+        private async Task LaunchSequence()
+        {
+            try
+            {
+                Status = "Starting launch sequence...";
+
+                // Step 1: Refresh (on UI thread)
+                Status = "Refreshing process list...";
+                ExecuteRefreshCommand(null);
+
+                // wait until refresh finishes
+                while (IsRefreshing)
+                    await Task.Delay(50);
+
+                // Step 2: Inject (on UI thread)
+                Status = "Injecting assembly...";
+                ExecuteInjectCommand(null);
+
+                Status = "Launch sequence completed successfully!";
+            }
+            catch (Exception ex)
+            {
+                Status = "Launch failed: " + ex.Message;
+            }
+        }
         #endregion
 
         #region[XML Props]
-
         private bool _isRefreshing;
         public bool IsRefreshing
         {
@@ -259,6 +324,7 @@ namespace SharpMonoInjector.Gui.ViewModels
             {
                 Set(ref _isRefreshing, value);
                 RefreshCommand.RaiseCanExecuteChanged();
+                LaunchCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -271,6 +337,7 @@ namespace SharpMonoInjector.Gui.ViewModels
                 Set(ref _isExecuting, value);
                 InjectCommand.RaiseCanExecuteChanged();
                 EjectCommand.RaiseCanExecuteChanged();
+                LaunchCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -289,6 +356,7 @@ namespace SharpMonoInjector.Gui.ViewModels
             {
                 _selectedProcess = value;
                 InjectCommand.RaiseCanExecuteChanged();
+                LaunchCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -312,7 +380,6 @@ namespace SharpMonoInjector.Gui.ViewModels
             get => _avcolor;
             set => Set(ref _avcolor, value);
         }
-
         private string _assemblyPath;
         public string AssemblyPath
         {
@@ -323,6 +390,7 @@ namespace SharpMonoInjector.Gui.ViewModels
                 if (File.Exists(_assemblyPath))
                     InjectNamespace = Path.GetFileNameWithoutExtension(_assemblyPath);
                 InjectCommand.RaiseCanExecuteChanged();
+                LaunchCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -346,6 +414,7 @@ namespace SharpMonoInjector.Gui.ViewModels
                 Set(ref _injectClassName, value);
                 EjectClassName = value;
                 InjectCommand.RaiseCanExecuteChanged();
+                LaunchCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -359,6 +428,7 @@ namespace SharpMonoInjector.Gui.ViewModels
                 if (_injectMethodName == "Load")
                     EjectMethodName = "Unload";
                 InjectCommand.RaiseCanExecuteChanged();
+                LaunchCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -408,11 +478,9 @@ namespace SharpMonoInjector.Gui.ViewModels
                 EjectCommand.RaiseCanExecuteChanged();
             }
         }
-
         #endregion
 
         #region[Process Refresh Fix]
-
         private static string GetProcessUser(Process process)
         {
             string result = "";
@@ -427,9 +495,9 @@ namespace SharpMonoInjector.Gui.ViewModels
                     result = user.Contains(@"\") ? user.Substring(user.IndexOf(@"\") + 1) : user;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", "    Error Getting User Process: " + process.ProcessName + " - " + ex.Message + "\r\n");
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", " Error Getting User Process: " + process.ProcessName + " - " + ex.Message + "\r\n");
                 return null;
             }
             finally
@@ -440,7 +508,6 @@ namespace SharpMonoInjector.Gui.ViewModels
                     //File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", "Closed User Process Handle...\r\n");
                 }
             }
-
             return result;
         }
 
@@ -450,80 +517,81 @@ namespace SharpMonoInjector.Gui.ViewModels
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool CloseHandle(IntPtr hObject);
-
         #endregion
 
         #region[AntiVirus PreTest]
-
         public static bool AntivirusInstalled()
         {
             // ref: https://stackoverflow.com/questions/1331887/detect-antivirus-on-windows-using-c-sharp
-
             #region[Pre-Windows 7]
-            /* 
+            /*
             try
             {
                 bool defenderFlag = false;
                 string wmipathstr = @"\\" + Environment.MachineName + @"\root\SecurityCenter";
-
                 ManagementObjectSearcher searcher = new ManagementObjectSearcher(wmipathstr, "SELECT * FROM AntivirusProduct");
                 ManagementObjectCollection instances = searcher.Get();
-
                 if (instances.Count > 0)
                 {
                     File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", "AntiVirus Installed: True\r\n");
-
                     string installedAVs = "Installed AntiVirus':\r\n";
                     foreach (ManagementBaseObject av in instances)
                     {
                         //installedAVs += av.GetText(TextFormat.WmiDtd20) + "\r\n";
                         var AVInstalled = ((string)av.GetPropertyValue("pathToSignedProductExe")).Replace("//", "") + " " + (string)av.GetPropertyValue("pathToSignedReportingExe");
-                        installedAVs += "   " + AVInstalled + "\r\n";
-
-                        if (((string)av.GetPropertyValue("pathToSignedProductExe")).StartsWith("windowsdefender") && ((string)av.GetPropertyValue("pathToSignedReportingExe")).EndsWith("Windows Defender\\MsMpeng.exe")) { defenderFlag = true; }
+                        installedAVs += " " + AVInstalled + "\r\n";
+                        if (((string)av.GetPropertyValue("pathToSignedProductExe")).StartsWith("windowsdefender") && ((string)av.GetPropertyValue("pathToSignedReportingExe")).EndsWith("Windows Defender\\MsMpeng.exe"))
+                        {
+                            defenderFlag = true;
+                        }
                     }
                     File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", installedAVs + "\r\n");
                 }
-                else { File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", "AntiVirus Installed: False\r\n"); }
-
-                if (defenderFlag) { return false; } else { return instances.Count > 0; }
+                else
+                {
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", "AntiVirus Installed: False\r\n");
+                }
+                if (defenderFlag)
+                {
+                    return false;
+                }
+                else
+                {
+                    return instances.Count > 0;
+                }
             }
-
             catch (Exception e)
             {
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", "Error Checking for AV: " + e.Message + "\r\n");
             }
             */
             #endregion
-            
             try
             {
                 List<string> avs = new List<string>();
                 bool defenderFlag = false;
                 string wmipathstr = @"\\" + Environment.MachineName + @"\root\SecurityCenter2";
-
                 ManagementObjectSearcher searcher = new ManagementObjectSearcher(wmipathstr, "SELECT * FROM AntivirusProduct");
                 ManagementObjectCollection instances = searcher.Get();
-
                 if (instances.Count > 0)
                 {
                     File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", "AntiVirus Installed: True\r\n");
-
                     string installedAVs = "Installed AntiVirus':\r\n";
-                    foreach(ManagementBaseObject av in instances)
+                    foreach (ManagementBaseObject av in instances)
                     {
                         //installedAVs += av.GetText(TextFormat.WmiDtd20) + "\r\n";
                         var AVInstalled = ((string)av.GetPropertyValue("pathToSignedProductExe")).Replace("//", "") + " " + (string)av.GetPropertyValue("pathToSignedReportingExe");
-                        installedAVs += "   " + AVInstalled + "\r\n";
+                        installedAVs += " " + AVInstalled + "\r\n";
                         avs.Add(AVInstalled.ToLower());
-
                         // Comment here to test
                         //if (((string)av.GetPropertyValue("pathToSignedProductExe")).StartsWith("windowsdefender") && ((string)av.GetPropertyValue("pathToSignedReportingExe")).EndsWith("Windows Defender\\MsMpeng.exe")) { defenderFlag = true; }
                     }
                     File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", installedAVs + "\r\n");
                 }
-                else { File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", "AntiVirus Installed: False\r\n"); }
-
+                else
+                {
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", "AntiVirus Installed: False\r\n");
+                }
                 foreach (Process p in Process.GetProcesses())
                 {
                     foreach (var detectedAV in avs)
@@ -534,21 +602,21 @@ namespace SharpMonoInjector.Gui.ViewModels
                         }
                     }
                 }
-
-                if (defenderFlag) { return false; } else { return instances.Count > 0;}                
+                if (defenderFlag)
+                {
+                    return false;
+                }
+                else
+                {
+                    return instances.Count > 0;
+                }
             }
-
             catch (Exception e)
             {
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "\\DebugLog.txt", "Error Checking for AV: " + e.Message + "\r\n");
             }
-
             return false;
         }
-
-
         #endregion
-
     }
 }
-

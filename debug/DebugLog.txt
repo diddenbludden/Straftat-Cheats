@@ -1,0 +1,283 @@
+AntiVirus Installed: True
+Installed AntiVirus':
+ windowsdefender: %ProgramFiles%\Windows Defender\MsMpeng.exe
+
+AntiVirus Running: windowsdefender: %programfiles%\windows defender\msmpeng.exe
+[MainWindowViewModel] - ExecuteRefresh Entered
+[MainWindowViewModel] - Setting Process Access Rights:
+	PROCESS_QUERY_INFORMATION
+	PROCESS_VM_READ
+[MainWindowViewModel] - Checking Processes for Mono
+ Error Getting User Process: ExitLag - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	ShellExperienceHost.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	NVIDIA Overlay.exe
+	opera.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	Widgets.exe
+ Error Getting User Process: services - Access is denied
+	smartscreen.exe
+	DiscordPTB.exe
+ Error Getting User Process: svchost - Access is denied
+	MSBuild.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	YouTube.exe
+	opera.exe
+	svchost.exe
+ Error Getting User Process: svchost - Access is denied
+	sihost.exe
+ Error Getting User Process: svchost - Access is denied
+	svchost.exe
+ Error Getting User Process: mDNSResponder - Access is denied
+ Error Getting User Process: EABackgroundService - Access is denied
+	opera.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: WmiPrvSE - Access is denied
+ Error Getting User Process: atieclxx - Access is denied
+ Error Getting User Process: dwm - Access is denied
+ Error Getting User Process: L-Connect 3 - Access is denied
+	CrossDeviceResume.exe
+	opera.exe
+	opera.exe
+	svchost.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	nvcontainer.exe
+	opera.exe
+ Error Getting User Process: MsMpEng - Access is denied
+ Error Getting User Process: WmiPrvSE - Access is denied
+ Error Getting User Process: fontdrvhost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: dasHost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: L-Connect 3 - Access is denied
+ Error Getting User Process: SignalRgbService - Access is denied
+ Error Getting User Process: steamservice - Access is denied
+	svchost.exe
+	conhost.exe
+	TextInputHost.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: StandardCollector.Service - Access is denied
+ Error Getting User Process: taskhostw - Access is denied
+ Error Getting User Process: lghub_updater - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	opera.exe
+	DevHub.exe
+ Error Getting User Process: NVDisplay.Container - Access is denied
+ Error Getting User Process: nvsphelper64 - Access is denied
+	crashpad_handler.exe
+ Error Getting User Process: winlogon - Access is denied
+	SecurityHealthSystray.exe
+	NVIDIA Overlay.exe
+ Error Getting User Process: WmiPrvSE - Access is denied
+	msedgewebview2.exe
+	dllhost.exe
+ Error Getting User Process: svchost - Access is denied
+	YouTube.exe
+	YouTube.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: wininit - Access is denied
+ Error Getting User Process: L-Connect 3 - Access is denied
+ Error Getting User Process: vmcompute - Access is denied
+	taskhostw.exe
+ Error Getting User Process: csrss - Access is denied
+	Spotify.exe
+ Error Getting User Process: ctfmon - Access is denied
+	nvcontainer.exe
+	steamwebhelper.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	msedgewebview2.exe
+ Error Getting User Process: svchost - Access is denied
+	DiscordPTB.exe
+	svchost.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	opera.exe
+	RuntimeBroker.exe
+ Error Getting User Process: Registry - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	opera.exe
+	Spotify.exe
+ Error Getting User Process: svchost - Access is denied
+	opera_crashreporter.exe
+ Error Getting User Process: svchost - Access is denied
+	steamwebhelper.exe
+	DiscordPTB.exe
+	msedgewebview2.exe
+ Error Getting User Process: svchost - Access is denied
+	EarTrumpet.exe
+	explorer.exe
+	opera.exe
+ Error Getting User Process: cloudflared - Access is denied
+	msedgewebview2.exe
+	DiscordPTB.exe
+ Error Getting User Process: NVDisplay.Container - Access is denied
+ Error Getting User Process: LsaIso - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	RuntimeBroker.exe
+	ShellHost.exe
+	msedgewebview2.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: nvcontainer - Access is denied
+	SignalRgbLauncher.exe
+ Error Getting User Process: Secure System - Access is denied
+	NVIDIA Overlay.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	WidgetService.exe
+	steamwebhelper.exe
+	DiscordPTB.exe
+	Spotify.exe
+	svchost.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	SignalRgb.exe
+	Spotify.exe
+	YouTube.exe
+ Error Getting User Process: MpDefenderCoreService - Access is denied
+	svchost.exe
+ Error Getting User Process: fontdrvhost - Access is denied
+	YouTube.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: RtkAudUService64 - Access is denied
+ Error Getting User Process: SecurityHealthService - Access is denied
+	opera.exe
+	TranslucentTB.exe
+	lghub_agent.exe
+	Spotify.exe
+	DiscordPTB.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: logi_lamparray_service - Access is denied
+	VBCSCompiler.exe
+	steamwebhelper.exe
+	opera.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: GigabyteUpdateService - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	RuntimeBroker.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: GooglePlayGamesServices - Access is denied
+	NVIDIA Overlay.exe
+ Error Getting User Process: svchost - Access is denied
+	YouTube.exe
+ Error Getting User Process: wallpaperservice32 - Access is denied
+	svchost.exe
+ Error Getting User Process: svchost - Access is denied
+	RuntimeBroker.exe
+	backgroundTaskHost.exe
+	opera.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: spoolsv - Access is denied
+	ServiceHub.IntellicodeModelService.exe
+ Error Getting User Process: lsass - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	lghub_system_tray.exe
+ Error Getting User Process: vmms - Access is denied
+ Error Getting User Process: RtkBtManServ - Access is denied
+	wallpaper64.exe
+ Error Getting User Process: csrss - Access is denied
+ Error Getting User Process: WmiApSrv - Access is denied
+ Error Getting User Process: UsbMonitor - Access is denied
+ Error Getting User Process: cmw_srv - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	RuntimeBroker.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	opera.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: smss - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	unsecapp.exe
+ Error Getting User Process: L-Connect 3 - Access is denied
+	Spotify.exe
+	UserOOBEBroker.exe
+ Error Getting User Process: NLSvc - Access is denied
+	YouTube.exe
+ Error Getting User Process: svchost - Access is denied
+	DiscordPTB.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: IpOverUsbSvc - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	msedgewebview2.exe
+ Error Getting User Process: atiesrxx - Access is denied
+	opera.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	devenv.exe
+	YouTube.exe
+ Error Getting User Process: amd3dvcacheSvc - Access is denied
+	ServiceHub.RoslynCodeAnalysisService.exe
+	steamwebhelper.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: ExitLagPmService - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	opera.exe
+	PerfWatson2.exe
+	SearchHost.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: FanControl - Access is denied
+	opera.exe
+	steamwebhelper.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: crashpad_handler - Access is denied
+	steam.exe
+	opera.exe
+ Error Getting User Process: handler - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	conhost.exe
+	opera.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	LockApp.exe
+ Error Getting User Process: nvcontainer - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: NisSrv - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	steamwebhelper.exe
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: WUDFHost - Access is denied
+	YouTube.exe
+ Error Getting User Process: gamingservicesnet - Access is denied
+ Error Getting User Process: AppleMobileDeviceService - Access is denied
+	NVIDIA Overlay.exe
+	StartMenuExperienceHost.exe
+ Error Getting User Process: audiodg - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	opera.exe
+ Error Getting User Process: gamingservices - Access is denied
+ Error Getting User Process: svchost - Access is denied
+ Error Getting User Process: AggregatorHost - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	svchost.exe
+ Error Getting User Process: System - Access is denied
+ Error Getting User Process: svchost - Access is denied
+	Spotify.exe
+ Error Getting User Process: Idle - Access is denied
+FINISHED SCANNING PROCESSES...
+No Mono processess found:
