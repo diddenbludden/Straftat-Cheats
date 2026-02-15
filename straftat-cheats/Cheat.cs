@@ -7,7 +7,7 @@ using HarmonyLib;
 using HeathenEngineering.SteamworksIntegration;
 using Sirenix.OdinInspector;
 using Steamworks;
-using strafthot.Features;
+using straftard.Features;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +15,8 @@ using System.Net;
 using System.Reflection;
 using UnityEngine;
 using VLB;
-using static strafthot.Config;
-namespace strafthot
+using static straftard.Config;
+namespace straftard
 {
     public class Cheat : MonoBehaviour
     {

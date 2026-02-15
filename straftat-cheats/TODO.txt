@@ -1,0 +1,8 @@
+TODO:
+add settings panel and sidebar item
+in settings panel add editable binds for every toggle
+in settings add gui menu theme
+in settings menu color picker 
+regular value sliders need fixing
+add back customization mode inside of settings panel
+Implement everything with clear instructions on where to place them

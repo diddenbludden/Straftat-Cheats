@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace strafthot.Features
+namespace straftard.Features
 {
     public class ESP
     {

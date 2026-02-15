@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace strafthot.Features
+namespace straftard.Features
 {
     public class DrawFOVCircle
     {

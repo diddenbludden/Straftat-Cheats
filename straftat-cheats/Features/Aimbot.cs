@@ -19,7 +19,7 @@ using System.Threading;
 using static Mono.Security.X509.X520;
 using DG.Tweening;
 
-namespace strafthot.Features
+namespace straftard.Features
 {
     public class Aimbot
     {

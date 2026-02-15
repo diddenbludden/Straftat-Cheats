@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 
-namespace strafthot
+namespace straftard
 {
     public static class Loader
     {

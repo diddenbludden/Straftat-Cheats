@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using strafthot.Features;
+using straftard.Features;
 
-namespace strafthot
+namespace straftard
 {
     public class Cache
     {
@@ -89,7 +89,7 @@ namespace strafthot
             }
         }
 
-        // Strafthot expects Suppressions list
+        // straftard expects Suppressions list
         public List<Suppression> Suppressions
         {
             get

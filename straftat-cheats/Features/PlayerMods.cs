@@ -3,7 +3,7 @@ using System;
 using System.Reflection;
 using UnityEngine;
 
-namespace strafthot.Features
+namespace straftard.Features
 {
     public class PlayerMods
     {

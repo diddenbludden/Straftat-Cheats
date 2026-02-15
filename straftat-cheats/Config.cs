@@ -3,16 +3,16 @@ using FishNet.Managing;
 using FishNet.Managing.Object;
 using FishNet.Object;
 using HeathenEngineering.SteamworksIntegration;
-using strafthot.Features;
+using straftard.Features;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using HarmonyLib;
-using static strafthot.Config.GUIItemSettings;
+using static straftard.Config.GUIItemSettings;
 
-namespace strafthot
+namespace straftard
 {
     public class Config
     {

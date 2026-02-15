@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace strafthot
+namespace straftard
 {
     public class PlayerCache
     {

@@ -10,7 +10,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using Vector3 = UnityEngine.Vector3;
 
-namespace strafthot.Features
+namespace straftard.Features
 {
     public class WeaponMods
     {

@@ -18,7 +18,7 @@ using FishNet.Managing.Object;
 using FishNet.Object;
 using HeathenEngineering.SteamworksIntegration;
 
-namespace strafthot.Features
+namespace straftard.Features
 {
     public class Misc : MonoBehaviour
     {
