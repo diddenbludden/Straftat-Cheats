@@ -24,18 +24,21 @@ How to Use
 
 ** SharpMonoInjector.dll - Launcher DLL (Launcher wont work without this) **
 
-Optional: Build From Source
-If you prefer not to use the precompiled binaries, both injector.exe and straftat.dll can be built manually from the source code. This ensures that you fully trust the binaries you are running.
+Optional: Build From Source if you think its a virus
+you can feel free to look through all the code
+to compile the launcher press <code>
+and save as a zip
+the only thing that will get flagged by windows defender is the SharpMonoInjector.dll
+
+to build your own SharpMonoInjector.dll it is the solution called SharpMonoInjector
+you can feel free to look through this code as there is nothing to hide
+
 
 Injection Process
 
-Run injector.exe
+Run Launcher.exe
 
-Select the target process from the list
-
-Choose the DLL (strafthot.dll) to inject
-
-Click Inject to perform the injection
+and press launch!
 
 # Features
 # Aiming:
