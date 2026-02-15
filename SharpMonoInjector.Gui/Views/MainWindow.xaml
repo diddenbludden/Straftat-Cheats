@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="Straftard Launcher" Height="300" Width="400"
         Background="#FF2C2C2C" WindowStartupLocation="CenterScreen"
-        ResizeMode="CanResize">
+        ResizeMode="NoResize">
 
     <Window.Resources>
         <!-- Visual Effects -->
