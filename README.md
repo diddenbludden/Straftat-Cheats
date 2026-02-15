@@ -22,7 +22,7 @@ How to Use
 
 ** Launcher.exe **
 
-** SharpMonoInjector.dll - Launcher DLL (Launcher wont work without this) **
+** SharpMonoInjector.dll - Launcher DLL (Launcher wont work without this) will get flagged by AV **
 
 Optional: Build From Source if you think its a virus
 you can feel free to look through all the code
