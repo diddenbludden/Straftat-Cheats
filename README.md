@@ -24,7 +24,15 @@ How to Use
 
 ** SharpMonoInjector.dll - Launcher DLL (Launcher wont work without this) will get flagged by AV **
 
-Optional: Build From Source if you think its a virus
+Option 1:
+Use wh0am1's sharpmonoinjector
+https://www.unknowncheats.me/forum/unity/408878-sharpmonoinjector-fixed-updated.html
+Namespace: straftard
+Method: Loader
+class: Init
+
+
+Option 2: Build From Source if you think its a virus
 you can feel free to look through all the code
 to compile the launcher press <code>
 and save as a zip
